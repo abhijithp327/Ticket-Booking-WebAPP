@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import session from 'express-session';
 
 
 
@@ -24,7 +25,7 @@ app.get('/', (req,res) => {
 app.use(express.json());
 app.use(cors({
     origin:true
-}))
+}));
 
 
 
