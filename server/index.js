@@ -4,6 +4,7 @@ import cors from 'cors';
 import session from 'express-session';
 import ticketRoutes from './routes/TicketRoutes.js';
 import cartRoutes from './routes/CartRoutes.js';
+import orderRoutes from './routes/OrderRoutes.js';
 
 
 
@@ -38,6 +39,7 @@ app.use(cors({
 
 app.use('/ticket', ticketRoutes);
 app.use('/cart', cartRoutes);
+app.use('/order', orderRoutes);
 
 
 
@@ -47,4 +49,4 @@ app.use('/cart', cartRoutes);
 app.listen(port, () => {
     connect();
     console.log("server running successfully on port", port);
-})
+});

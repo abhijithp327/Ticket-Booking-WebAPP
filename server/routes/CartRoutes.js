@@ -7,8 +7,9 @@ const router = express.Router();
 
 router.post('/addtocart/:ticketId', addToCart);
 router.get('/viewcart', getCartItems);
+router.get('/cart/total', cartTotalPrice);
 router.delete('/deletecart/:ticketId', removeTicketFromCart);
-router.get('/total', cartTotalPrice);
+
 
 
 export default router;

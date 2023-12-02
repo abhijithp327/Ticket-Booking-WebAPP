@@ -4,30 +4,27 @@ import Ticket from "../models/TicketModel.js";
 
 
 export const addToCart = async(req,res) => {
-    try {
-        const { ticketId } = req.params;
-        const { quantity } = req.body;
+  try {
+    const { ticketId } = req.params;
+    const { quantity } = req.body;
 
-        const ticket = await Ticket.findById( ticketId );
+    const ticket = await Ticket.findById(ticketId);
 
-        if(!ticket) {
-           return res.status(404).json({message:"Ticket not found"});
-        }
-
-        if( ticket.availableQuantity < quantity ) {
-            return res.status(400).json({message:"Request Quantity Exceeds available stock"});
-        }
-
-       req.session.cart = req.session.cart || [];
-       req.session.cart[ticketId] = (req.session.cart[ticketId] || 0 ) + quantity;
-
-
-       res.status(200).json({message:"Ticket Added To Cart Successfully"});
-       
-
-    } catch (error) {
-        res.status(500).json({message:"Internal Server Error"});
+    if (!ticket) {
+      return res.status(404).json({ error: 'Ticket not found' });
     }
+
+    if (ticket.availableQuantity < quantity) {
+      return res.status(400).json({ error: 'Not enough stock available' });
+    }
+
+    req.session.cart = req.session.cart || {};
+    req.session.cart[ticketId] = (req.session.cart[ticketId] || 0) + quantity;
+
+    res.json({ success: true, messsage:"Ticket added to cart successfully" });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 }
 
 
@@ -36,6 +33,8 @@ export const getCartItems = async(req,res) => {
     try {
         const cart = req.session.cart || {};
         const cartItems = [];
+        console.log(cartItems);
+
     
         for (const ticketId in cart) {
           const ticket = await Ticket.findById(ticketId);
@@ -77,7 +76,7 @@ export const removeTicketFromCart = async(req,res) => {
 
 
 export const cartTotalPrice = async(req,res) => {
-    try {
+  try {
     const cart = req.session.cart || {};
     let totalPrice = 0;
 
